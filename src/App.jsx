@@ -1,6 +1,5 @@
 import React from "react";
 
-import { getTopTracks } from "./last-fm";
 import { Window, WindowManager } from "./98";
 
 export default function App() {
