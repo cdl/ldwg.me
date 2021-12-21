@@ -15,15 +15,9 @@ export default function App() {
         </p>
       </Window>
 
-      <Window
-        title="Canvas"
-        width="300px"
-        height="300px"
-        marginTop={50}
-        marginLeft={50}
-      >
+      {/* <Window title="Canvas" width="300px" height="300px">
         <p>This will eventually be a canvas.</p>
-      </Window>
+      </Window> */}
     </WindowManager>
   );
 }
