@@ -5,7 +5,7 @@ import { Window, WindowManager } from "./98";
 export default function App() {
   return (
     <WindowManager>
-      <Window title="Colby Ludwig" marginTop={10} marginLeft={10}>
+      <Window title="Colby Ludwig" posX={40} posY={40}>
         <div style={{ textAlign: "center" }}>
           <img src="/avatar.bmp" width="64px" />
         </div>

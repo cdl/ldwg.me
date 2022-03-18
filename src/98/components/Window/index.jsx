@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 export default function Window({
   title = "Window",
   width = "300px",
+  posX: initialPosX = 0,
+  posY: initialPosY = 0,
   height = null,
   children,
 }) {
@@ -11,8 +13,8 @@ export default function Window({
   // component in order to position the window accurately.
   const [isDragging, setIsDragging] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
-  const [posX, setPosX] = useState(0);
-  const [posY, setPosY] = useState(0);
+  const [posX, setPosX] = useState(initialPosX);
+  const [posY, setPosY] = useState(initialPosY);
   const [dragStartPosX, setDragStartPosX] = useState(0);
   const dragOffsetX = useRef(0);
   const dragOffsetY = useRef(0);
