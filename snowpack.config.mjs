@@ -3,7 +3,7 @@
 export default {
   mount: {
     /* ... */
-    "node_modules/98.css/dist": "/",
+    "node_modules/98.css/dist": "/dist",
     public: "/",
     src: "/dist",
   },
@@ -17,6 +17,8 @@ export default {
   optimize: {
     /* Example: Bundle your final build: */
     // "bundle": true,
+    bundle: true,
+    minify: true,
   },
   packageOptions: {
     /* ... */
