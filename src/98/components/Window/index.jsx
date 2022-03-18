@@ -11,18 +11,20 @@ export default function Window({
 }) {
   // Keep track of the old and new positions throughout the lifecycle of
   // component in order to position the window accurately.
-  const [isDragging, setIsDragging] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isDragging, setIsDragging] = useState(false); // ! Deprecated.
   const [isOpen, setIsOpen] = useState(true);
   const [posX, setPosX] = useState(initialPosX);
   const [posY, setPosY] = useState(initialPosY);
-  const [dragStartPosX, setDragStartPosX] = useState(0);
+  const [dragStartPosX, setDragStartPosX] = useState(0); // ! Deprecated.
   const dragOffsetX = useRef(0);
   const dragOffsetY = useRef(0);
-  const [dragStartPosY, setDragStartPosY] = useState(0);
+  const [dragStartPosY, setDragStartPosY] = useState(0); // ! Deprecated.
   const windowElement = useRef(null);
 
   function handleDragDown(ev) {
     ev.preventDefault();
+    if (isMinimized) return;
 
     const { clientX, clientY } = ev;
 
@@ -51,6 +53,8 @@ export default function Window({
   function handleDrag(ev) {
     ev.preventDefault();
 
+    if (isMinimized) return;
+
     let offsetX = dragOffsetX.current;
     let offsetY = dragOffsetY.current;
 
@@ -64,6 +68,7 @@ export default function Window({
 
   function handleDragUp(ev) {
     ev.preventDefault();
+    if (isMinimized) return;
 
     // Resets the drag state to default values.
     setIsDragging(false);
@@ -82,18 +87,37 @@ export default function Window({
     setIsOpen(false);
   }
 
+  function handleMinimize(ev) {
+    ev.preventDefault();
+    setIsMinimized(!isMinimized);
+  }
+
+  let windowStyles = {
+    position: "absolute",
+    overflow: "hidden",
+    width,
+    height: isMinimized ? 21 : height,
+  };
+
+  let finalX = posX;
+  let finalY = posY;
+  if (isMinimized) {
+    finalX = 0;
+    finalY = 0;
+    windowStyles = {
+      ...windowStyles,
+      bottom: 0,
+    };
+  }
+
+  windowStyles = {
+    ...windowStyles,
+    transform: `translate(${finalX}px, ${finalY}px)`,
+  };
+
   return (
     isOpen && (
-      <div
-        className="window"
-        ref={windowElement}
-        style={{
-          position: "absolute",
-          width,
-          height,
-          transform: `translate(${posX}px, ${posY}px)`,
-        }}
-      >
+      <div className="window" ref={windowElement} style={windowStyles}>
         <div
           className="title-bar"
           onMouseDown={handleDragDown}
@@ -102,7 +126,7 @@ export default function Window({
         >
           <div className="title-bar-text">{title}</div>
           <div className="title-bar-controls">
-            <button aria-label="Minimize"></button>
+            <button aria-label="Minimize" onClick={handleMinimize}></button>
             <button aria-label="Maximize"></button>
             <button aria-label="Close" onClick={handleClose}></button>
           </div>
