@@ -1,25 +1,26 @@
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
+import cx from "classnames";
+import "./index.css";
 
 export default function Window({
+  id,
   title = "Window",
   width = "300px",
-  posX: initialPosX = 0,
-  posY: initialPosY = 0,
   height = null,
+  x = 0,
+  y = 0,
+  focused = false,
   children,
 }) {
   // Keep track of the old and new positions throughout the lifecycle of
   // component in order to position the window accurately.
   const [isMinimized, setIsMinimized] = useState(false);
-  const [isDragging, setIsDragging] = useState(false); // ! Deprecated.
   const [isOpen, setIsOpen] = useState(true);
-  const [posX, setPosX] = useState(initialPosX);
-  const [posY, setPosY] = useState(initialPosY);
-  const [dragStartPosX, setDragStartPosX] = useState(0); // ! Deprecated.
+  const [posX, setPosX] = useState(x);
+  const [posY, setPosY] = useState(y);
   const dragOffsetX = useRef(0);
   const dragOffsetY = useRef(0);
-  const [dragStartPosY, setDragStartPosY] = useState(0); // ! Deprecated.
   const windowElement = useRef(null);
 
   function handleDragDown(ev) {
@@ -28,17 +29,22 @@ export default function Window({
 
     const { clientX, clientY } = ev;
 
-    const rect = windowElement.current?.getBoundingClientRect();
-    const dragOriginDelta = { x: rect.x - clientX, y: rect.y - clientY };
+    /**
+     * ? At this point, we're needing to also set the focus of all other windows to false. How can we move the drag handlers
+     * ? up to, say, the WindowManager level, in order to allow it to be responsible for updating focus on drag of a new window and pass down a new
+     * ? focused prop? Maybe we should just have the WindowManager set up an event handler for every Window on useEffect() for mousedown, mousemove, mouseup?
+     * ? And use the ev.target for detecting the hit-point of the click on the window? (eg: to prevent the window from being draggable by the content).
+     */
+    // setIsFocused(true);
+
+    // Grab the bounds of the window.
+    const rect = windowElement.current.getBoundingClientRect();
 
     // Otherwise, start dragging.
     // Subtract the drag co-ordinates from the origin of the Window, to account for the offset between the cursor
     // and the windows' origin when calculating the new position for a drag.
-    dragOffsetX.current = dragOriginDelta.x;
-    dragOffsetY.current = dragOriginDelta.y;
-    setDragStartPosX(clientX + dragOffsetX.current);
-    setDragStartPosY(clientY + dragOffsetY.current);
-    setIsDragging(true);
+    dragOffsetX.current = rect.x - clientX;
+    dragOffsetY.current = rect.y - clientY;
 
     // (1) Set the drag-up event on the window instead of the title bar, in order
     // to ensure it always gets fired even if the mouse is outside the title
@@ -62,8 +68,8 @@ export default function Window({
 
     // On mouse drag, set the new window position to the new mouse origin,
     // taking into account the mouse delta from the window origin at drag start.
-    setPosX(ev.clientX + offsetX);
-    setPosY(ev.clientY + offsetY);
+    setPosX(ev.clientX + dragOffsetX.current);
+    setPosY(ev.clientY + dragOffsetY.current);
   }
 
   function handleDragUp(ev) {
@@ -71,9 +77,6 @@ export default function Window({
     if (isMinimized) return;
 
     // Resets the drag state to default values.
-    setIsDragging(false);
-    setDragStartPosX(0);
-    setDragStartPosY(0);
     dragOffsetX.current = 0;
     dragOffsetY.current = 0;
 
@@ -97,6 +100,7 @@ export default function Window({
     overflow: "hidden",
     width,
     height: isMinimized ? 21 : height,
+    zIndex: focused ? 10 : 0,
   };
 
   let finalX = posX;
@@ -117,9 +121,9 @@ export default function Window({
 
   return (
     isOpen && (
-      <div className="window" ref={windowElement} style={windowStyles}>
+      <div id={id} className="window" ref={windowElement} style={windowStyles}>
         <div
-          className="title-bar"
+          className={cx("title-bar", !focused && "inactive")}
           onMouseDown={handleDragDown}
           // onMouseUp={handleDragUp} see (1)
           // onMouseMove={handleDrag} see (2)
@@ -144,4 +148,9 @@ Window.propTypes = {
   height: PropTypes.string,
   marginTop: PropTypes.number,
   marginLeft: PropTypes.number,
+};
+
+export const WindowType = {
+  DEFAULT: "default",
+  PROFILE: "profile",
 };

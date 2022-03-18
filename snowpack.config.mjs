@@ -3,9 +3,9 @@
 export default {
   mount: {
     /* ... */
-    "node_modules/98.css/dist": "/dist",
+    "node_modules/98.css/dist": "/",
     public: "/",
-    src: "/dist",
+    src: "/",
   },
   plugins: [
     /* ... */
