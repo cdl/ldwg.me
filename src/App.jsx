@@ -24,7 +24,7 @@ export default function App() {
           </div>
           <p style={{ textAlign: "center" }}>
             Full-stack developer. Making (and breaking) things for the web.
-            Based in Vancouver, BC.
+            Based in Edmonton, AB.
           </p>
         </Window>
 
