@@ -43,8 +43,9 @@ export default function Profile(props) {
         <img src="/avatar.bmp" width="64px" />
       </div>
       <p style={{ textAlign: "center" }}>
-        Full-stack developer. Making (and breaking) things for the web. Based in
-        Vancouver, BC.
+        Full-stack developer. Making (and breaking) things for the web.
+        <br />
+        Based in Edmonton, AB.
       </p>
       <div className="button-group">
         <button onClick={handleClick} id="linkedin">

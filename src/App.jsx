@@ -27,10 +27,6 @@ export default function App() {
             Based in Edmonton, AB.
           </p>
         </Window>
-
-        {/* <Window title="Canvas" width="300px" height="300px">
-        <p>This will eventually be a canvas.</p>
-      </Window> */}
       </WindowManager>
     </DesktopContext.Provider>
   );
