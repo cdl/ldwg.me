@@ -12,6 +12,7 @@ export default function Window({
   y = 0,
   focused = false,
   children,
+  className,
 }) {
   // Keep track of the old and new positions throughout the lifecycle of
   // component in order to position the window accurately.
@@ -63,8 +64,6 @@ export default function Window({
 
     let offsetX = dragOffsetX.current;
     let offsetY = dragOffsetY.current;
-
-    console.log({ offsetX, offsetY, posX, posY });
 
     // On mouse drag, set the new window position to the new mouse origin,
     // taking into account the mouse delta from the window origin at drag start.
@@ -121,7 +120,12 @@ export default function Window({
 
   return (
     isOpen && (
-      <div id={id} className="window" ref={windowElement} style={windowStyles}>
+      <div
+        id={id}
+        className={cx("window", className)}
+        ref={windowElement}
+        style={windowStyles}
+      >
         <div
           className={cx("title-bar", !focused && "inactive")}
           onMouseDown={handleDragDown}
@@ -153,4 +157,5 @@ Window.propTypes = {
 export const WindowType = {
   DEFAULT: "default",
   PROFILE: "profile",
+  LASTFM: "lastfm",
 };
