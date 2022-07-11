@@ -1,4 +1,6 @@
 {
+  "name": "ldwg-me",
+  "private": true,
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",

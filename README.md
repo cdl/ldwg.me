@@ -4,6 +4,11 @@ A personal "profile" site for myself to replace my existing one. Built with [98.
 
 ![A screenshot showing two Windows 98-era windows.](./public/readme.png)
 
+## Setting up
+
+- Register a Last.fm application [here](https://www.last.fm/api/account/create), then place your API key within `workers/last-fm/last-fm/api.js` (line 1).
+- Replace `LASTFM_USERNAME` with your Last.fm username in `workers/last-fm/src/index.js` (line 3).
+
 ## Available Scripts
 
 ### npm start
