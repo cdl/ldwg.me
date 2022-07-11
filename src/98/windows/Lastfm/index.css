@@ -1,0 +1,48 @@
+.track-cells {
+  height: 100%;
+  min-height: 320px;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.track-cell {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0 6px 6px 6px;
+}
+
+.track-cell__artwork {
+  width: 42px;
+  height: 42px;
+}
+
+.track-cell__info {
+  line-height: 1.5;
+  margin: 0;
+  margin-left: 0.5em;
+}
+
+.track-cell__info p {
+  margin: 0;
+}
+
+.track-cell__info-muted {
+  color: #666;
+}
+
+.track-cells__attr {
+  margin-top: 1em;
+  text-align: right;
+}
+
+.last-fm-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("/lastfm.png");
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-bottom: -5px;
+}
