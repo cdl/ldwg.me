@@ -4,6 +4,7 @@ import { useDesktop, DesktopContext } from "../../context/desktop";
 import Window, { WindowType } from "../Window";
 
 import Profile from "../../windows/Profile";
+import Lastfm from "../../windows/Lastfm";
 
 export default function WindowManager() {
   const state = useDesktop();
@@ -67,6 +68,8 @@ export default function WindowManager() {
     switch (type) {
       case WindowType.PROFILE:
         return <Profile id={w.id} focused={focused === w.id} key="profile" />;
+      case WindowType.LASTFM:
+        return <Lastfm id={w.id} focused={focused === w.id} key="lastfm" />;
       default:
         return (
           <Window
