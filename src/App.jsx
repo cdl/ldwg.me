@@ -11,23 +11,17 @@ const initialState = {
       id: 1,
       type: WindowType.PROFILE,
     },
+    2: {
+      id: 2,
+      type: WindowType.LASTFM,
+    },
   },
 };
 
 export default function App() {
   return (
     <DesktopContext.Provider value={initialState}>
-      <WindowManager>
-        <Window title="Colby Ludwig" posX={40} posY={40}>
-          <div style={{ textAlign: "center" }}>
-            <img src="/avatar.bmp" width="64px" />
-          </div>
-          <p style={{ textAlign: "center" }}>
-            Full-stack developer. Making (and breaking) things for the web.
-            Based in Edmonton, AB.
-          </p>
-        </Window>
-      </WindowManager>
+      <WindowManager></WindowManager>
     </DesktopContext.Provider>
   );
 }
