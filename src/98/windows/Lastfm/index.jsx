@@ -47,7 +47,7 @@ export default function Lastfm(props) {
 
   // Load the recent tracks from the API on init.
   useEffect(() => {
-    const tracks = getTracks().then(() => {
+    getTracks().then((tracks) => {
       setTracks(tracks);
       setIsLoading(false);
     });
