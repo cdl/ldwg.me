@@ -40,7 +40,7 @@ export default function Profile(props) {
   return (
     <Window title="Colby Ludwig" x={25} y={25} width="350px" {...props}>
       <div style={{ textAlign: "center" }}>
-        <img src="/avatar.bmp" width="64px" />
+        <img src="/avatar.jpg" width="64px" />
       </div>
       <p style={{ textAlign: "center" }}>
         Full-stack developer. Making (and breaking) things for the web.
