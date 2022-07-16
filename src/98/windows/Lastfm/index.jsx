@@ -4,7 +4,7 @@ import Window from "../../components/Window";
 import "./index.css";
 
 async function getTracks() {
-  const res = await fetch("http://localhost:8787/");
+  const res = await fetch("/api/last-fm", { method: "POST" });
   const json = await res.json();
 
   return json;
