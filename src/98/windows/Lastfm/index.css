@@ -10,11 +10,18 @@
   align-items: center;
   vertical-align: middle;
   margin: 0 6px 6px 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+}
+
+.track-cell:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 .track-cell__artwork {
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
 }
 
 .track-cell__info {

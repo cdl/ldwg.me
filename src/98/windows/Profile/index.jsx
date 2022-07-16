@@ -40,7 +40,12 @@ export default function Profile(props) {
   return (
     <Window title="Colby Ludwig" x={25} y={25} width="350px" {...props}>
       <div style={{ textAlign: "center" }}>
-        <img src="/avatar.jpg" width="64px" />
+        <img
+          src="/avatar.jpg"
+          width="64px"
+          height="64px"
+          alt="A low-resolution picture of Colby, with his face in his palms in defeat. Big mood."
+        />
       </div>
       <p style={{ textAlign: "center" }}>
         Full-stack developer. Making (and breaking) things for the web.
