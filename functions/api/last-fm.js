@@ -2,7 +2,7 @@ import { getRecentTracks } from "../../src/last-fm";
 
 const LASTFM_USERNAME = "rckts";
 const LASTFM_TRACK_LIMIT = 20;
-const LASTFM_CACHE_TTL = 30;
+const LASTFM_CACHE_TTL = 60 * 5; // 5 min
 
 // For parsing JSON out from fetch() requests.
 async function parseResponse(res) {
@@ -33,9 +33,7 @@ function parseTrackObject(track) {
 // Fetch the top tracks for the user, parse them out if a valid response is returned,
 // and return them as formatted JSON objects.
 export async function onRequestPost(context) {
-  // Respond to pre-flight CORS requests early.
-  const { request, env } = context;
-  const { headers } = request;
+  const { env } = context;
 
   // Try to fetch the tracks, failing early if anything weird happens
   // (the client will re-attempt to load it later).
