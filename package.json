@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "clean": "rm -rfv node_modules build",
-    "start": "snowpack dev",
+    "start": "wrangler pages dev build -- snowpack build --watch",
     "build": "snowpack build",
     "test": "echo \"This template does not include a test runner by default.\" && exit 1"
   },

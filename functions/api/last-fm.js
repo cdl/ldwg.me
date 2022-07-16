@@ -37,34 +37,6 @@ export async function onRequestPost(context) {
   const { request, env } = context;
   const { headers } = request;
 
-  // Handle OPTIONS requests early for CORS.
-  if (request.method === "OPTIONS") {
-    if (
-      headers.get("Origin") !== null &&
-      headers.get("Access-Control-Request-Method") !== null &&
-      headers.get("Access-Control-Request-Headers") !== null
-    ) {
-      // Allow all methods & headers through.
-      return new Response(null, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
-          "Access-Control-Max-Age": "86400",
-          "Access-Control-Allow-Headers": request.headers.get(
-            "Access-Control-Request-Headers"
-          ),
-        },
-      });
-    } else {
-      // Handle standard OPTIONS request.
-      return new Response(null, {
-        headers: {
-          Allow: "GET, HEAD, POST, OPTIONS",
-        },
-      });
-    }
-  }
-
   // Try to fetch the tracks, failing early if anything weird happens
   // (the client will re-attempt to load it later).
   try {
@@ -80,24 +52,12 @@ export async function onRequestPost(context) {
     const tracks = resJson.recenttracks.track.map(parseTrackObject);
 
     // Finally, return the tracks as JSON!
-    return new Response(JSON.stringify(tracks), {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
-        "Access-Control-Max-Age": "86400",
-      },
-    });
+    return new Response(JSON.stringify(tracks));
   } catch (err) {
     // Something weird happened -- return a generic error message and log the full details.
     console.error(err);
     return new Response("error fetching from lastfm", {
       status: 500,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
-        "Access-Control-Max-Age": "86400",
-      },
     });
   }
 }
