@@ -1,6 +1,7 @@
-import Api, { LASTFM_API_KEY } from "../api";
+import { buildUrl } from "..";
 
 export default async function getRecentTracks({
+  apiKey,
   user,
   limit,
   page,
@@ -32,8 +33,14 @@ export default async function getRecentTracks({
     options.to = to;
   }
 
-  const api = new Api(LASTFM_API_KEY);
-  const path = api.buildUrl("user.getrecenttracks", options);
+  if (!apiKey) {
+    throw new Error(`apiKey is required, \`${apiKey}\` was given`);
+  } else {
+    // Last.fm uses snake-case properties.
+    options.api_key = apiKey;
+  }
+
+  const path = buildUrl("user.getrecenttracks", options);
 
   return fetch(path, { cf });
 }
