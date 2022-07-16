@@ -47,17 +47,17 @@ export default function Profile(props) {
         <br />
         Based in Edmonton, AB.
       </p>
-      <div className="button-group">
-        <button onClick={handleClick} id="linkedin">
+      <div className="button-group profile__btn-group">
+        <button className="profile__btn" onClick={handleClick} id="linkedin">
           LinkedIn
         </button>
-        <button onClick={handleClick} id="twitter">
+        <button className="profile__btn" onClick={handleClick} id="twitter">
           Twitter
         </button>
-        <button onClick={handleClick} id="dribbble">
+        <button className="profile__btn" onClick={handleClick} id="dribbble">
           Dribbble
         </button>
-        <button onClick={handleClick} id="email">
+        <button className="profile__btn" onClick={handleClick} id="email">
           Email
         </button>
       </div>

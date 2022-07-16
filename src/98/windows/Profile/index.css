@@ -1,4 +1,9 @@
-.button-group {
+.profile__btn-group {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+}
+
+.profile__btn {
+  margin-left: 0;
+  margin-right: 0;
 }
