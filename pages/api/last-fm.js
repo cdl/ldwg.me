@@ -32,14 +32,12 @@ function parseTrackObject(track) {
 
 // Fetch the top tracks for the user, parse them out if a valid response is returned,
 // and return them as formatted JSON objects.
-export async function onRequestPost(context) {
-  const { env } = context;
-
+export default async function getLastFmInfo(request, response) {
   // Try to fetch the tracks, failing early if anything weird happens
   // (the client will re-attempt to load it later).
   try {
     const res = await getRecentTracks({
-      apiKey: env.LASTFM_API_KEY,
+      apiKey: process.env.LASTFM_API_KEY,
       user: LASTFM_USERNAME,
       limit: LASTFM_TRACK_LIMIT,
       cf: { cacheTtl: LASTFM_CACHE_TTL }, // Pass forward a cacheTtl to speed up repeated requests.
@@ -50,12 +48,10 @@ export async function onRequestPost(context) {
     const tracks = resJson.recenttracks.track.map(parseTrackObject);
 
     // Finally, return the tracks as JSON!
-    return new Response(JSON.stringify(tracks));
+    return response.status(200).json(tracks);
   } catch (err) {
     // Something weird happened -- return a generic error message and log the full details.
     console.error(err);
-    return new Response("error fetching from lastfm", {
-      status: 500,
-    });
+    return response.status(500).json("error fetching from lastfm");
   }
 }

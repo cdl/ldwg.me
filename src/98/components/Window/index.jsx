@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";
-import "./index.css";
+import styles from "./index.module.css";
 
 export default function Window({
   id,
@@ -132,7 +132,9 @@ export default function Window({
           // onMouseUp={handleDragUp} see (1)
           // onMouseMove={handleDrag} see (2)
         >
-          <div className="title-bar-text">{title}</div>
+          <div className={cx("title-bar-text", styles.titleBarText)}>
+            {title}
+          </div>
           <div className="title-bar-controls">
             <button aria-label="Minimize" onClick={handleMinimize}></button>
             <button aria-label="Maximize"></button>
