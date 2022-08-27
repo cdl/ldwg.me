@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import cx from "classnames";
 import Window from "../../components/Window";
 import { useDesktop } from "../../context/desktop";
@@ -40,7 +41,7 @@ export default function Profile(props) {
   return (
     <Window title="Colby Ludwig" x={25} y={25} width="350px" {...props}>
       <div style={{ textAlign: "center" }}>
-        <img
+        <Image
           src="/avatar.jpg"
           width="64px"
           height="64px"

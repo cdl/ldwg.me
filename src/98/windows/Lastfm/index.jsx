@@ -1,5 +1,6 @@
 import cx from "classnames";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Window from "../../components/Window";
 import styles from "./index.module.css";
 
@@ -20,10 +21,12 @@ function renderTrack(track) {
 
   return (
     <li key={track.playedAt} className={cx(styles.trackCell)}>
-      <img
+      <Image
         className={cx(styles.trackCellArtwork)}
         src={track.artworkUrl}
         alt="Album artwork"
+        width="34px"
+        height="34px"
       />
       <div className={cx(styles.trackCellInfo)}>
         <p>
