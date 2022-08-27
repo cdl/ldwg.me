@@ -1,8 +1,9 @@
 import React from "react";
+import cx from "classnames";
 import Window from "../../components/Window";
 import { useDesktop } from "../../context/desktop";
 
-import "./index.css";
+import styles from "./index.module.css";
 
 const PROFILE_LINKS = {
   linkedin: { label: "LinkedIn", value: `https://linkedin.com/in/colbyludwig` },
@@ -16,7 +17,7 @@ export default function Profile(props) {
     ({ label, value }, key) => (
       <button
         key={key}
-        className="profile__btn"
+        className={styles.profileBtn}
         data-link={value}
         onClick={handleClick}
       >
@@ -51,7 +52,9 @@ export default function Profile(props) {
         <br />
         Based in Edmonton, AB.
       </p>
-      <div className="button-group profile__btn-group">{profileButtons}</div>
+      <div className={cx("button-group", styles.profileBtnGroup)}>
+        {profileButtons}
+      </div>
     </Window>
   );
 }

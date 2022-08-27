@@ -1,11 +1,11 @@
-.track-cells {
+.trackCells {
   height: 100%;
   min-height: 320px;
   max-height: 500px;
   overflow-y: scroll;
 }
 
-.track-cell {
+.trackCell {
   display: flex;
   align-items: center;
   vertical-align: middle;
@@ -14,36 +14,36 @@
   border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
 }
 
-.track-cell:last-child {
+.trackCell:last-child {
   border-bottom: 0;
   padding-bottom: 0;
 }
 
-.track-cell__artwork {
+.trackCellArtwork {
   width: 34px;
   height: 34px;
 }
 
-.track-cell__info {
+.trackCellInfo {
   line-height: 1.5;
   margin: 0;
   margin-left: 0.5em;
 }
 
-.track-cell__info p {
+.trackCellInfo p {
   margin: 0;
 }
 
-.track-cell__info-muted {
+.trackCellInfo-muted {
   color: #666;
 }
 
-.track-cells__attr {
+.trackCellsAttr {
   margin-top: 1em;
   text-align: right;
 }
 
-.last-fm-icon {
+.lastFmIcon {
   display: inline-block;
   width: 16px;
   height: 16px;

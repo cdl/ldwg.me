@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React, { useEffect, useState } from "react";
 import Window from "../../components/Window";
-import "./index.css";
+import styles from "./index.module.css";
 
 async function getTracks() {
   const res = await fetch("/api/last-fm", { method: "POST" });
@@ -19,19 +19,19 @@ function renderTrack(track) {
   }
 
   return (
-    <li key={track.playedAt} className="track-cell">
+    <li key={track.playedAt} className={cx(styles.trackCell)}>
       <img
-        className="track-cell__artwork"
+        className={cx(styles.trackCellArtwork)}
         src={track.artworkUrl}
         alt="Album artwork"
       />
-      <div className="track-cell__info">
+      <div className={cx(styles.trackCellInfo)}>
         <p>
           <span style={{ fontWeight: nowPlaying ? "bold" : "normal" }}>
             {name}
           </span>
           <br />
-          <span className={cx(!nowPlaying && "track-cell__info-muted")}>
+          <span className={cx(!nowPlaying && styles.trackCellInfoMuted)}>
             {track.album} by {track.artist}
           </span>
         </p>
@@ -58,12 +58,13 @@ export default function Lastfm(props) {
       <p style={{ textAlign: "center" }}>fetching info from last.fm...</p>
     );
   } else {
-    trackCells = tracks.map(renderTrack);
+    if (tracks instanceof Array) {
+      trackCells = tracks.map(renderTrack);
+    }
   }
 
   return (
     <Window
-      className="window--last-fm"
       title="Recently Played"
       x={25}
       y={212}
@@ -71,15 +72,16 @@ export default function Lastfm(props) {
       style={{ overflowY: "scroll" }}
       {...props}
     >
-      <ul className="track-cells tree-view">{trackCells}</ul>
-      <div className="track-cells__attr">
+      <ul className={cx(styles.trackCells, "tree-view")}>{trackCells}</ul>
+      <div className={cx(styles.trackCellsAttr)}>
         data provided by{" "}
         <a
-          className="track-cells__attr-link"
+          className={cx(styles.trackCellsAttrLink)}
           href="https://www.last.fm/user/rckts"
           target="_blank"
+          rel="noreferrer"
         >
-          <div className="last-fm-icon"></div> last.fm
+          <div className={cx(styles.lastFmIcon)}></div> last.fm
         </a>
       </div>
     </Window>
