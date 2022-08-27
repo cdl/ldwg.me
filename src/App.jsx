@@ -1,4 +1,6 @@
 import React from "react";
+import Head from "next/head";
+
 import { WindowType } from "./98/components/Window";
 import { useDesktop, DesktopContext } from "./98/context/desktop";
 import { WindowManager } from "./98";
@@ -20,8 +22,18 @@ const initialState = {
 
 export default function App() {
   return (
-    <DesktopContext.Provider value={initialState}>
-      <WindowManager></WindowManager>
-    </DesktopContext.Provider>
+    <>
+      <Head>
+        <title>Colby Ludwig</title>
+        <meta
+          name="description"
+          content="Full-stack developer. Making (and breaking) things for the web. Based in Edmonton, AB."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <DesktopContext.Provider value={initialState}>
+        <WindowManager></WindowManager>
+      </DesktopContext.Provider>
+    </>
   );
 }
