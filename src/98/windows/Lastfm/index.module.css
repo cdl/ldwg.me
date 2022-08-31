@@ -22,16 +22,25 @@
 .trackCellArtwork {
   width: 34px;
   height: 34px;
+  flex: 0 0 34px;
 }
 
 .trackCellInfo {
   line-height: 1.5;
   margin: 0;
   margin-left: 0.5em;
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
-.trackCellInfo p {
-  margin: 0;
+.trackCellInfoLine {
+  display: inline;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .trackCellInfo-muted {

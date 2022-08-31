@@ -29,15 +29,20 @@ function renderTrack(track) {
         height={34}
       />
       <div className={cx(styles.trackCellInfo)}>
-        <p>
-          <span style={{ fontWeight: nowPlaying ? "bold" : "normal" }}>
+        <span
+          className={cx(styles.trackCellInfoLine)}
+          style={{ fontWeight: nowPlaying ? "bold" : "normal" }}
+        >
           {name}
         </span>
-          <br />
-          <span className={cx(!nowPlaying && styles.trackCellInfoMuted)}>
+        <span
+          className={cx(
+            styles.trackCellInfoLine,
+            !nowPlaying && styles.trackCellInfoMuted
+          )}
+        >
           {track.album} by {track.artist}
         </span>
-        </p>
       </div>
     </li>
   );
