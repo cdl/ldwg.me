@@ -8,7 +8,7 @@ import styles from "./index.module.css";
 
 const PROFILE_LINKS = {
   linkedin: { label: "LinkedIn", value: `https://linkedin.com/in/colbyludwig` },
-  twitter: { label: "Twitter", value: `https://twitter.com/cdl` },
+  mastodon: { label: "Mastodon", value: `https://mstdn.ca/@colby` },
   github: { label: "Github", value: `https://github.com/cdl` },
   email: { label: "Email", value: `mailto:me@colbyludwig.com` },
 };
