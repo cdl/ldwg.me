@@ -31,6 +31,11 @@ export default function App() {
         />
         <link rel="me" href="https://ldwg.me/@colby" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+          async
+          src="https://a.ldwg.me/script.js"
+          data-website-id="b8d9e3ba-3fde-4c35-a181-7ae49508ab3f"
+        ></script>
       </Head>
       <DesktopContext.Provider value={initialState}>
         <WindowManager></WindowManager>
