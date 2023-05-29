@@ -45,6 +45,12 @@ export default async function getLastFmInfo(request, response) {
 
     // Parse out JSON, then massage the track objects into just the data we need.
     const resJson = await parseResponse(res);
+
+    if (resJson?.recenttracks == null) {
+      console.error("no tracks returned, got response:", resJson);
+      throw new Exception("no tracks returned");
+    }
+
     const tracks = resJson.recenttracks.track.map(parseTrackObject);
 
     // Finally, return the tracks as JSON!
