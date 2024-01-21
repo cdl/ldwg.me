@@ -5,11 +5,6 @@ const nextConfig = {
   images: {
     domains: ["lastfm.freetls.fastly.net"],
   },
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
-  },
 };
 
 module.exports = nextConfig;

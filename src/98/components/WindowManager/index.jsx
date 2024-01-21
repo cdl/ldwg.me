@@ -85,7 +85,7 @@ export default function WindowManager() {
   }
 
   const windows = Object.values(state.windows).map((w) =>
-    getWindowForType(w.type, w)
+    getWindowForType(w.type, w),
   );
 
   return <>{windows}</>;

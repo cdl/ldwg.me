@@ -24,7 +24,7 @@ export default function Profile(props) {
       >
         {label}
       </button>
-    )
+    ),
   );
 
   function handleClick(ev) {
@@ -42,9 +42,10 @@ export default function Profile(props) {
     <Window title="Colby Ludwig" x={25} y={25} width="350px" {...props}>
       <div style={{ textAlign: "center" }}>
         <Image
+          priority={true}
           src="/avatar.jpg"
-          width="64px"
-          height="64px"
+          width={64}
+          height={64}
           alt="A low-resolution picture of Colby, with his face in his palms in defeat. Big mood."
         />
       </div>

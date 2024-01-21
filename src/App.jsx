@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Script from "next/script";
 
 import { WindowType } from "./98/components/Window";
 import { useDesktop, DesktopContext } from "./98/context/desktop";
@@ -23,6 +24,11 @@ const initialState = {
 export default function App() {
   return (
     <>
+      <Script
+        async={true}
+        src="https://a.ldwg.me/script.js"
+        data-website-id="b8d9e3ba-3fde-4c35-a181-7ae49508ab3f"
+      />
       <Head>
         <title>Colby Ludwig</title>
         <meta
@@ -31,11 +37,6 @@ export default function App() {
         />
         <link rel="me" href="https://ldwg.me/@colby" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script
-          async
-          src="https://a.ldwg.me/script.js"
-          data-website-id="b8d9e3ba-3fde-4c35-a181-7ae49508ab3f"
-        ></script>
       </Head>
       <DesktopContext.Provider value={initialState}>
         <WindowManager></WindowManager>
