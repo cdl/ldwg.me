@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { WindowType } from "./98/components/Window";
 import { useDesktop, DesktopContext } from "./98/context/desktop";
@@ -24,6 +25,7 @@ const initialState = {
 export default function App() {
   return (
     <>
+      <SpeedInsights />
       <Script
         async={true}
         src="https://a.ldwg.me/script.js"
