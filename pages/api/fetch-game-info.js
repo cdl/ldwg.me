@@ -4,8 +4,13 @@ import {
   exchangeNpssoForCode,
   exchangeRefreshTokenForAuthTokens,
   exchangeCodeForAccessToken,
-  getBasicPresence,
 } from "psn-api";
+
+import { getPSNInfo, getSteamSummary } from "../../src/game-info";
+
+const log = (...arg) => {
+  console.log(`[PSN]`, ...arg);
+};
 
 /**
  * Fetch the game information from various sources and store any
@@ -25,12 +30,18 @@ export default async function fetchGameInfo(request, response) {
     return response.status(401).json({ error: "unauthorized" });
   }
 
-  // Cache the current PSN presence to `psn:presence`.
+  // Fetch the current PSN presence & Steam summary. This will automatically cache to Vercel KV.
   const psnAccessCode = await getPSNAuthorization();
-  const psnPresence = await getBasicPresence(psnAccessCode, "me");
-  await kv.hset("psn:presence", psnPresence);
+  try {
+    const [psn, steam] = await Promise.all([
+      getPSNInfo(psnAccessCode),
+      getSteamSummary(),
+    ]);
 
-  response.json({ status: "ok", psn: psnPresence.basicPresence });
+    response.json({ status: "ok", psn, steam });
+  } catch (err) {
+    response.status(500).json(err);
+  }
 }
 
 /**
@@ -39,13 +50,15 @@ export default async function fetchGameInfo(request, response) {
  * We want to do this as little as possible, so ideally this is only run if
  * the access token & refresh token are both expired.
  *
+ * TODO: Refactor this & all other PSN-specific functions into src/game-info/psn.js
+ *
  * The returned object has the expiresIn and refreshTokenExpiresIn values
  * expressed as ISO timestamps as `accessTokenExpiresAt` and `refreshTokenExpiresAt`.
  *
  * @returns {import("psn-api").AuthTokensResponse}
  */
 async function authenticatePSN() {
-  console.log(`Exchanging npsso key for authorization!`);
+  log(`Exchanging npsso key for authorization!`);
 
   const npsso = process.env.PSN_API_NPSSO;
   if (!npsso) return null;
@@ -59,15 +72,16 @@ async function authenticatePSN() {
     ...authorization,
   };
 
-  console.log(`Caching authorization to Vercel KV!`);
+  log(`Caching authorization to Vercel KV!`);
 
   // Cache the authorization to Vercel KV, then return it.
-  await kv.hset("psn:auth");
+  await kv.hset("psn:auth", authorization);
+
   return authorization;
 }
 
 async function refreshPSNAuthentication({ refreshToken }) {
-  console.log(
+  log(
     `Exchanging refresh token for auth token!`,
     Object.keys(authorization),
     authorization?.accessTokenExpiresAt,
@@ -101,13 +115,13 @@ function computedExpiry(auth) {
 }
 
 function isAccessTokenExpired(authorization) {
-  console.log("Checking if access token has expired...");
+  log("Checking if access token has expired...");
   const now = new Date();
   return new Date(authorization.accessTokenExpiresAt).getTime() < now.getTime();
 }
 
 function isRefreshTokenExpired(authorization) {
-  console.log("Checking if refresh token has expired...");
+  log("Checking if refresh token has expired...");
   const now = new Date();
   return (
     new Date(authorization.refreshTokenExpiresAt).getTime() < now.getTime()
@@ -115,24 +129,20 @@ function isRefreshTokenExpired(authorization) {
 }
 
 async function refreshIfNecessary(authorization) {
-  console.log("Checking if authorization refresh is necessary...");
+  log("Checking if authorization refresh is necessary...");
 
   // Check if the access token is expired. If not, return the authorization object as-is.
   if (authorization?.accessToken && !isAccessTokenExpired(authorization)) {
-    console.log("Returning cached authorization!");
+    log("Returning cached authorization!");
     return authorization;
   }
 
   // Check if the refresh token is still valid. If so, use it to refresh the access token.
   if (authorization?.refreshToken && !isRefreshTokenExpired) {
-    console.log(
-      "Authorization expired, using valid refresh token to refresh...",
-    );
+    log("Authorization expired, using valid refresh token to refresh...");
     return await refreshPSNAuthentication(authorization);
   } else {
-    console.log(
-      "Both access & refresh tokens have expired! Generating new ones...",
-    );
+    log("Both access & refresh tokens have expired! Generating new ones...");
     // Otherwise, we should re-fetch a new PSN authorization entirely,
     // and return that. This is the only code path that should call
     // the Sony authentication API!
@@ -141,7 +151,7 @@ async function refreshIfNecessary(authorization) {
 }
 
 async function getPSNAuthorization() {
-  console.log("Getting PSN authorization from Vercel KV (if it exists)...");
+  log("Getting PSN authorization from Vercel KV (if it exists)...");
 
   // Grab the latest PSN authorization from Vercel KV.
   let psnAuthorization = await kv.hgetall("psn:auth");
