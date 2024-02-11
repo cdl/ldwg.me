@@ -29,7 +29,7 @@ export default function App() {
       <Script
         async={true}
         src="https://a.ldwg.me/script.js"
-        data-website-id="b8d9e3ba-3fde-4c35-a181-7ae49508ab3f"
+        data-website-id="cf5024a4-3f26-47cb-9874-ab67ba88acb7"
       />
       <Head>
         <title>Colby Ludwig</title>
