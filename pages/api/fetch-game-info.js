@@ -1,5 +1,4 @@
 import { kv } from "@vercel/kv";
-import { NextApiRequest, NextApiResponse } from "next";
 import {
   exchangeNpssoForCode,
   exchangeRefreshTokenForAuthTokens,
@@ -21,8 +20,8 @@ const log = (...arg) => {
  * We limit this to require an Authorization header with a bearer token stored
  * in the CRON_SECRET environment variable.
  *
- * @param {NextApiRequest} request
- * @param {NextApiResponse} response
+ * @param {import('next').NextApiRequest} request
+ * @param {import('next').NextApiResponse} response
  */
 export default async function fetchGameInfo(request, response) {
   const authHeader = request.headers?.authorization;
