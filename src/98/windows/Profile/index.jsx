@@ -9,8 +9,8 @@ import styles from "./index.module.css";
 const PROFILE_LINKS = {
   linkedin: { label: "LinkedIn", value: `https://linkedin.com/in/colbyludwig` },
   mastodon: { label: "Mastodon", value: `https://ldwg.me/@colby` },
+  bluesky: { label: "Bluesky", value: `https://bsky.app/profile/colby.lol` },
   github: { label: "Github", value: `https://github.com/cdl` },
-  email: { label: "Email", value: `mailto:me@colbyludwig.com` },
 };
 
 export default function Profile(props) {
