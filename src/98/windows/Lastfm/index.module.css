@@ -26,6 +26,7 @@
 }
 
 .trackCellInfo {
+  width: 100%;
   line-height: 1.5;
   margin: 0;
   margin-left: 0.5em;
@@ -38,9 +39,19 @@
 }
 
 .trackCellInfoLine {
-  display: inline;
+  display: flex;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-left: 1px;
+}
+
+.trackcellInfoName {
+  flex: 1 1 auto;
+}
+
+.trackcellInfoTimestamp {
+  flex: 0 0 auto;
+  color: #999;
 }
 
 .trackCellInfo-muted {

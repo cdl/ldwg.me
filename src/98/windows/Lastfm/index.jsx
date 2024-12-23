@@ -11,13 +11,38 @@ async function getTracks() {
   return json;
 }
 
+function renderTimestamp(track) {
+  if (track.playedAt === "currently playing") {
+    return "now";
+  }
+
+  const timestamp = new Date(Number(track.playedAt) * 1000);
+
+  // If the timestamp is within the last hour, show the time in minutes.
+  // If the timestamp is within the last day, show the time in hours.
+  // Otherwise, show the time in days.
+  const now = new Date();
+  const diff = now - timestamp;
+  const diffMinutes = Math.floor(diff / 60000);
+  const diffHours = Math.floor(diff / 3600000);
+  const diffDays = Math.floor(diff / 86400000);
+
+  if (diffMinutes < 60) {
+    return `${diffMinutes}m`;
+  }
+
+  if (diffHours < 24) {
+    return `${diffHours}h`;
+  }
+
+  return `${diffDays}d`;
+}
+
 function renderTrack(track) {
   const nowPlaying = track.playedAt === "currently playing";
 
   let name = track.name;
-  if (nowPlaying) {
-    name = `${name} (now playing)`;
-  }
+  let timestamp = renderTimestamp(track);
 
   return (
     <li key={track.playedAt} className={cx(styles.trackCell)}>
@@ -33,7 +58,8 @@ function renderTrack(track) {
           className={cx(styles.trackCellInfoLine)}
           style={{ fontWeight: nowPlaying ? "bold" : "normal" }}
         >
-          {name}
+          <span className={styles.trackcellInfoName}>{name}</span>
+          <span className={styles.trackcellInfoTimestamp}>{timestamp}</span>
         </span>
         <span
           className={cx(
