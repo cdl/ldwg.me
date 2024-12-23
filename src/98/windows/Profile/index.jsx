@@ -9,7 +9,10 @@ import styles from "./index.module.css";
 const PROFILE_LINKS = {
   linkedin: { label: "LinkedIn", value: `https://linkedin.com/in/colbyludwig` },
   mastodon: { label: "Mastodon", value: `https://ldwg.me/@colby` },
-  bluesky: { label: "Bluesky", value: `https://bsky.app/profile/colby.lol` },
+  bluesky: {
+    label: "Bluesky",
+    value: `https://bsky.app/profile/colby.ldwg.ca`,
+  },
   github: { label: "Github", value: `https://github.com/cdl` },
 };
 
