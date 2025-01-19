@@ -5,7 +5,7 @@ import Window from "../../components/Window";
 import styles from "./index.module.css";
 
 async function getTracks() {
-  const res = await fetch("/api/last-fm", { method: "POST" });
+  const res = await fetch( "https://colby.lol/api/last-fm/" );
   const json = await res.json();
 
   return json;
