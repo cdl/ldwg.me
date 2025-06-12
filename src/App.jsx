@@ -37,7 +37,7 @@ export default function App() {
           name="description"
           content="Full-stack developer. Making (and breaking) things for the web. Based in Edmonton, AB."
         />
-        <link rel="me" href="https://ldwg.me/@colby" />
+        <link rel="me" href="https://ldwg.ca/@colby" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <DesktopContext.Provider value={initialState}>
