@@ -23,6 +23,8 @@ export default function Profile(props) {
         key={key}
         className={styles.profileBtn}
         data-link={value}
+        data-umami-event="profile-link-click"
+        data-umami-event-platform={label}
         onClick={handleClick}
       >
         {label}
@@ -33,8 +35,6 @@ export default function Profile(props) {
   function handleClick(ev) {
     ev.preventDefault();
     const url = ev.target?.getAttribute("data-link");
-
-    console.log(url, ev.target);
 
     if (!url) return;
 

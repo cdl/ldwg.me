@@ -1,4 +1,3 @@
-import React from "react";
 import Head from "next/head";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -29,7 +28,7 @@ export default function App() {
       <Script
         async={true}
         src="https://a.ldwg.me/script.js"
-        data-website-id="cf5024a4-3f26-47cb-9874-ab67ba88acb7"
+        data-website-id="f4724d5f-20d9-4599-881a-82de8ccdc52c"
       />
       <Head>
         <title>Colby Ludwig</title>
