@@ -26,9 +26,9 @@ export default function App() {
     <>
       <SpeedInsights />
       <Script
-        async={true}
-        src="https://a.ldwg.me/script.js"
-        data-website-id="f4724d5f-20d9-4599-881a-82de8ccdc52c"
+        defer={true}
+        data-domain="colbyludwig.com"
+        src="https://p.ldwg.me/js/script.js"
       />
       <Head>
         <title>Colby Ludwig</title>
