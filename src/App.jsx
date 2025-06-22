@@ -28,7 +28,7 @@ export default function App() {
       <Script
         defer={true}
         data-domain="colbyludwig.com"
-        src="https://p.ldwg.me/js/script.js"
+        src="https://p.ldwg.ca/js/script.js"
       />
       <Head>
         <title>Colby Ludwig</title>
