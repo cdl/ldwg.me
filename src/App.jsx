@@ -27,7 +27,7 @@ export default function App() {
       <SpeedInsights />
       <Script
         defer={true}
-        data-domain="colbyludwig.com"
+        data-domain="colbyludwig.ca"
         src="https://p.ldwg.ca/js/script.js"
       />
       <Head>
