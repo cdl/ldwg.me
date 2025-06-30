@@ -90,6 +90,7 @@ export default async function getLastFmInfo(request, response) {
       topArtists: { maxPlays, artists },
     };
 
+    response.setHeader("Cache-Control", "public, s-maxage=10");
     return response.status(200).json(payload);
   } catch (err) {
     // Something weird happened -- return a generic error message and log the full details.
