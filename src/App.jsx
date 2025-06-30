@@ -31,6 +31,7 @@ export default function App() {
         src="https://p.ldwg.ca/js/script.js"
       />
       <Script
+        id="plausible-js-queue"
         dangerouslySetInnerHTML={{
           __html: `window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`,
         }}
