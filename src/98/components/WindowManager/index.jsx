@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { v4 } from "uuid";
-import { useDesktop, DesktopContext } from "../../context/desktop";
+import { useDesktop } from "../../context/desktop";
 import Window, { WindowType } from "../Window";
 
 import Profile from "../../windows/Profile";

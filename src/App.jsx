@@ -3,7 +3,7 @@ import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { WindowType } from "./98/components/Window";
-import { useDesktop, DesktopContext } from "./98/context/desktop";
+import { DesktopContext } from "./98/context/desktop";
 import { WindowManager } from "./98";
 
 const initialState = {
