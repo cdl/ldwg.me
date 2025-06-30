@@ -39,7 +39,7 @@ export default function Profile(props) {
 
     // Attempt to track click via Plausible.
     if (typeof window.plausible === "function") {
-      window.plausible("Profile Button Click", { label });
+      window.plausible("Profile Button Click", { props: { label } });
     }
 
     window.open(url, "_blank");
