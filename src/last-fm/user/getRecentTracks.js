@@ -1,5 +1,7 @@
 import { buildUrl } from "..";
 
+const { LASTFM_API_CACHE_TTL } = process.env;
+
 export default async function getRecentTracks({
   apiKey,
   user,
@@ -9,7 +11,7 @@ export default async function getRecentTracks({
   extended,
   to,
   cache = "force-cache",
-  next = { revalidate: 60 * 60 },
+  next = { revalidate: parseInt(LASTFM_API_CACHE_TTL) },
 }) {
   let options = { user };
 
@@ -42,6 +44,5 @@ export default async function getRecentTracks({
   }
 
   const path = buildUrl("user.getrecenttracks", options);
-
   return fetch(path, { cache, next });
 }

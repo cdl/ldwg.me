@@ -1,5 +1,7 @@
 import { buildUrl } from "..";
 
+const { LASTFM_API_CACHE_TTL } = process.env;
+
 export default async function getTopArtists({
   apiKey,
   user,
@@ -24,6 +26,6 @@ export default async function getTopArtists({
 
   return fetch(path, {
     cache: "force-cache",
-    next: { revalidate: 60 * 60 },
+    next: { revalidate: parseInt(LASTFM_API_CACHE_TTL) },
   });
 }

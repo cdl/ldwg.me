@@ -4,7 +4,7 @@ const LASTFM_USERNAME = "rckts";
 const LASTFM_RECENT_TRACKS_LIMIT = 20;
 const LASTFM_TOP_ARTISTS_LIMIT = 5;
 
-const { LASTFM_API_KEY } = process.env;
+const { LASTFM_API_KEY, LASTFM_API_CACHE_TTL } = process.env;
 
 // For parsing JSON out from fetch() requests.
 async function parseJsonResponse(res) {
@@ -90,7 +90,10 @@ export default async function getLastFmInfo(request, response) {
       topArtists: { maxPlays, artists },
     };
 
-    response.setHeader("Cache-Control", "public, s-maxage=10");
+    response.setHeader(
+      "Cache-Control",
+      `public, s-maxage=${LASTFM_API_CACHE_TTL}`,
+    );
     return response.status(200).json(payload);
   } catch (err) {
     // Something weird happened -- return a generic error message and log the full details.
