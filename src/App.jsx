@@ -30,6 +30,11 @@ export default function App() {
         data-domain="colbyludwig.ca"
         src="https://p.ldwg.ca/js/script.js"
       />
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`,
+        }}
+      />
       <Head>
         <title>Colby Ludwig</title>
         <meta

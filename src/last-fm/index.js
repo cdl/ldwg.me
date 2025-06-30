@@ -1,4 +1,5 @@
 import getRecentTracks from "./user/getRecentTracks";
+import getTopArtists from "./user/getTopArtists";
 
 const API_BASE = `https://ws.audioscrobbler.com/2.0/`;
 
@@ -15,4 +16,4 @@ export function buildUrl(method, params) {
   return url;
 }
 
-export { getRecentTracks };
+export { getRecentTracks, getTopArtists };

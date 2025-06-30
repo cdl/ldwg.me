@@ -5,10 +5,8 @@ import Window from "../../components/Window";
 import styles from "./index.module.css";
 
 async function getTracks() {
-  const res = await fetch( "/api/last-fm/" );
-  const json = await res.json();
-
-  return json;
+  const res = await fetch("/api/last-fm");
+  return await res.json();
 }
 
 function renderTimestamp(track) {
@@ -74,39 +72,81 @@ function renderTrack(track) {
   );
 }
 
+function renderTopArtist(artist, total) {
+  const { name, playcount, url } = artist;
+  const barWidth = `${Math.round((playcount / total) * 10000) / 100}%`;
+
+  return (
+    <li className={cx(styles.topArtistCell)} key={url}>
+      <div className={cx(styles.topArtistInfo)}>
+        <p className={cx(styles.topArtistHeader)}>
+          <a
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            className={cx(styles.topArtistName)}
+          >
+            {name}
+          </a>
+          {`(${playcount} plays)`}
+        </p>
+      </div>
+      <div className={cx("progress-indicator", styles.progressIndicator)}>
+        <span
+          className={cx("progress-indicator-bar", styles.progressIndicatorBar)}
+          style={{ width: barWidth }}
+        ></span>
+      </div>
+    </li>
+  );
+}
+
 export default function Lastfm(props) {
   let trackCells;
+  let topArtistCells;
+
   const [tracks, setTracks] = useState(null);
+  const [topArtists, setTopArtists] = useState(null);
+
   const [isLoading, setIsLoading] = useState(true);
 
   // Load the recent tracks from the API on init.
   useEffect(() => {
-    getTracks().then((tracks) => {
-      setTracks(tracks);
+    getTracks().then(({ recentTracks, topArtists }) => {
+      setTracks(recentTracks);
+      setTopArtists(topArtists);
       setIsLoading(false);
     });
   }, []);
 
   if (isLoading) {
-    trackCells = (
+    trackCells = topArtistCells = (
       <p style={{ textAlign: "center" }}>fetching info from last.fm...</p>
     );
   } else {
     if (tracks instanceof Array) {
       trackCells = tracks.map(renderTrack);
     }
+
+    if (topArtists?.artists?.map) {
+      topArtistCells = topArtists.artists.map((a) =>
+        renderTopArtist(a, topArtists.maxPlays),
+      );
+    }
   }
 
   return (
     <Window
-      title="Recently Played"
-      x={25}
+      title="Recently Played & Top Artists"
+      x={20}
       y={212}
       width="350px"
       style={{ overflowY: "scroll" }}
+      innerClassName={cx(styles.window)}
       {...props}
     >
       <ul className={cx(styles.trackCells, "tree-view")}>{trackCells}</ul>
+      <ul className={cx(styles.topArtists, "tree-view")}>{topArtistCells}</ul>
       <div className={cx(styles.trackCellsAttr)}>
         data provided by{" "}
         <a

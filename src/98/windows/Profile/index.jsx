@@ -23,8 +23,6 @@ export default function Profile(props) {
         key={key}
         className={styles.profileBtn}
         data-link={value}
-        data-umami-event="profile-link-click"
-        data-umami-event-platform={label}
         onClick={handleClick}
       >
         {label}
@@ -34,15 +32,21 @@ export default function Profile(props) {
 
   function handleClick(ev) {
     ev.preventDefault();
+    const label = ev.target?.innerText;
     const url = ev.target?.getAttribute("data-link");
 
     if (!url) return;
+
+    // Attempt to track click via Plausible.
+    if (typeof window.plausible === "function") {
+      window.plausible("Profile Button Click", { label });
+    }
 
     window.open(url, "_blank");
   }
 
   return (
-    <Window title="Colby Ludwig" x={25} y={25} width="350px" {...props}>
+    <Window title="Colby Ludwig" x={20} y={25} width="350px" {...props}>
       <div style={{ textAlign: "center" }}>
         <Image
           priority={true}

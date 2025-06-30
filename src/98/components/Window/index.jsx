@@ -13,6 +13,7 @@ export default function Window({
   focused = false,
   children,
   className,
+  innerClassName,
 }) {
   // Keep track of the old and new positions throughout the lifecycle of
   // component in order to position the window accurately.
@@ -142,7 +143,7 @@ export default function Window({
           </div>
         </div>
 
-        <div className="window-body">{children}</div>
+        <div className={cx("window-body", innerClassName)}>{children}</div>
       </div>
     )
   );

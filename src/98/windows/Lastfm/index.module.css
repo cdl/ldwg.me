@@ -1,7 +1,6 @@
 .trackCells {
-  height: 100%;
-  min-height: 320px;
-  max-height: 500px;
+  min-height: max(200px, 20vh);
+  max-height: min(200px, 20vh);
   overflow-y: scroll;
 }
 
@@ -59,11 +58,12 @@
 }
 
 .trackCellsAttr {
-  margin-top: 1em;
+  margin: 0;
   text-align: right;
 }
 
 .lastFmIcon {
+  vertical-align: middle;
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -71,5 +71,33 @@
   background-size: 16px 16px;
   background-repeat: no-repeat;
   background-position: center center;
-  margin-bottom: -5px;
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topArtistInfo {
+  display: flex;
+  margin: 8px 0 4px;
+}
+
+.topArtistInfo:first-of-type {
+  margin-top: 4px;
+}
+
+.topArtistHeader {
+  margin: 0;
+  color: #696969;
+}
+
+.topArtistName {
+  padding-left: 2px;
+  padding-right: 4px;
+}
+
+.progressIndicator {
+  height: 1.2rem;
 }
