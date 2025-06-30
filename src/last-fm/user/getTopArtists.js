@@ -6,7 +6,6 @@ export default async function getTopArtists({
   limit,
   page,
   period,
-  cf = {},
 }) {
   let options = { user };
 
@@ -23,5 +22,8 @@ export default async function getTopArtists({
 
   const path = buildUrl("user.getTopArtists", options);
 
-  return fetch(path, { cf });
+  return fetch(path, {
+    cache: "force-cache",
+    next: { revalidate: 60 * 60 },
+  });
 }

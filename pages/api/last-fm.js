@@ -1,7 +1,6 @@
 import { getRecentTracks, getTopArtists } from "../../src/last-fm";
 
 const LASTFM_USERNAME = "rckts";
-const LASTFM_CACHE_TTL = 60 * 5; // 5 min
 const LASTFM_RECENT_TRACKS_LIMIT = 20;
 const LASTFM_TOP_ARTISTS_LIMIT = 5;
 
@@ -46,31 +45,29 @@ export default async function getLastFmInfo(request, response) {
   // Try to fetch the tracks, failing early if anything weird happens
   // (the client will re-attempt to load it later).
   try {
-    const res = await getRecentTracks({
-      apiKey: LASTFM_API_KEY,
-      user: LASTFM_USERNAME,
-      cf: { cacheTtl: LASTFM_CACHE_TTL }, // Pass forward a cacheTtl to speed up repeated requests.
-      limit: LASTFM_RECENT_TRACKS_LIMIT,
-    });
+    const [recentTracksRes, topArtistsRes] = await Promise.all([
+      getRecentTracks({
+        apiKey: LASTFM_API_KEY,
+        user: LASTFM_USERNAME,
+        limit: LASTFM_RECENT_TRACKS_LIMIT,
+      }),
+      getTopArtists({
+        apiKey: LASTFM_API_KEY,
+        user: LASTFM_USERNAME,
+        limit: LASTFM_TOP_ARTISTS_LIMIT,
+        period: "7day",
+      }),
+    ]);
 
     // Parse out JSON, then massage the track objects into just the data we need.
-    const recentTracksJson = await parseJsonResponse(res);
+    const recentTracksJson = await parseJsonResponse(recentTracksRes);
     if (recentTracksJson?.recenttracks == null) {
       console.error("no tracks returned, got response:", recentTracksJson);
       throw new Exception("no tracks returned");
     }
 
-    // Get the top artists for the user over the past week.
-    const topArtistsResponse = await getTopArtists({
-      apiKey: LASTFM_API_KEY,
-      user: LASTFM_USERNAME,
-      limit: LASTFM_TOP_ARTISTS_LIMIT,
-      period: "7day",
-      cf: { cacheTtl: LASTFM_CACHE_TTL },
-    });
-
     /** @type {Object} */
-    const topArtistsJson = await parseJsonResponse(topArtistsResponse);
+    const topArtistsJson = await parseJsonResponse(topArtistsRes);
     if (topArtistsJson?.topartists == null) {
       throw new Exception("no artists returned");
     }

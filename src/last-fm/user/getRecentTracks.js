@@ -8,7 +8,8 @@ export default async function getRecentTracks({
   from,
   extended,
   to,
-  cf = {}, // used for Cloudflare specific request options
+  cache = "force-cache",
+  next = { revalidate: 60 * 60 },
 }) {
   let options = { user };
 
@@ -42,5 +43,5 @@ export default async function getRecentTracks({
 
   const path = buildUrl("user.getrecenttracks", options);
 
-  return fetch(path, { cf });
+  return fetch(path, { cache, next });
 }
