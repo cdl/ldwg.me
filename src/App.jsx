@@ -40,7 +40,7 @@ export default function App() {
         <title>Colby Ludwig</title>
         <meta
           name="description"
-          content="Full-stack developer. Making (and breaking) things for the web. Based in Edmonton, AB."
+          content="Colby Ludwig is a full-stack software developer, making and breaking things for the web in Edmonton, AB, Canada."
         />
         <link rel="me" href="https://ldwg.ca/@colby" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
