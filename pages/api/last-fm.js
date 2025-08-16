@@ -55,7 +55,7 @@ export default async function getLastFmInfo(request, response) {
         apiKey: LASTFM_API_KEY,
         user: LASTFM_USERNAME,
         limit: LASTFM_TOP_ARTISTS_LIMIT,
-        period: "7day",
+        period: "1month",
       }),
     ]);
 
@@ -63,13 +63,13 @@ export default async function getLastFmInfo(request, response) {
     const recentTracksJson = await parseJsonResponse(recentTracksRes);
     if (recentTracksJson?.recenttracks == null) {
       console.error("no tracks returned, got response:", recentTracksJson);
-      throw new Exception("no tracks returned");
+      throw new Error("no tracks returned");
     }
 
     /** @type {Object} */
     const topArtistsJson = await parseJsonResponse(topArtistsRes);
     if (topArtistsJson?.topartists == null) {
-      throw new Exception("no artists returned");
+      throw new Error("no artists returned");
     }
 
     // Grab the maximum play count out of all the artists.
