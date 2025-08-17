@@ -6,7 +6,14 @@ import styles from "./index.module.css";
 
 async function getTracks() {
   const res = await fetch("/api/last-fm");
-  return await res.json();
+  if (!res.ok) {
+    throw new Error(`Failed to fetch tracks: ${res.status} ${res.statusText}`);
+  }
+  const data = await res.json();
+  if (typeof data === "string" && data.includes("error")) {
+    throw new Error(`Last.fm API error: ${data}`);
+  }
+  return data;
 }
 
 function renderTimestamp(track) {
@@ -107,19 +114,51 @@ export default function Lastfm(props) {
 
   const [tracks, setTracks] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
-
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Load the recent tracks from the API on init.
   useEffect(() => {
-    getTracks().then(({ recentTracks, topArtists }) => {
-      setTracks(recentTracks);
-      setTopArtists(topArtists);
-      setIsLoading(false);
-    });
+    getTracks()
+      .then(({ recentTracks, topArtists }) => {
+        setTracks(recentTracks);
+        setTopArtists(topArtists);
+        setIsLoading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        console.error("Failed to load Last.fm data:", err);
+        setError(err.message);
+        setIsLoading(false);
+      });
   }, []);
 
-  if (isLoading) {
+  if (error) {
+    trackCells = topArtistCells = (
+      <div style={{ textAlign: "center", padding: "16px" }}>
+        <p style={{ marginBottom: "8px" }}>Failed to load Last.fm data.</p>
+        <p style={{ fontSize: "10px", color: "#666" }}>{error}</p>
+        <button
+          onClick={() => {
+            setError(null);
+            setIsLoading(true);
+            getTracks()
+              .then(({ recentTracks, topArtists }) => {
+                setTracks(recentTracks);
+                setTopArtists(topArtists);
+                setIsLoading(false);
+              })
+              .catch((err) => {
+                setError(err.message);
+                setIsLoading(false);
+              });
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  } else if (isLoading) {
     trackCells = topArtistCells = (
       <p style={{ textAlign: "center" }}>fetching info from last.fm...</p>
     );

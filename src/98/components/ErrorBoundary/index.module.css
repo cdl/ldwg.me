@@ -1,0 +1,8 @@
+.errorContainer {
+  padding: 16px;
+  text-align: center;
+  border: 2px inset;
+  background-color: #c0c0c0;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 11px;
+}

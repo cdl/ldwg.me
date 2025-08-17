@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDesktop } from "../../context/desktop";
 import Window, { WindowType } from "../Window";
+import ErrorBoundary from "../ErrorBoundary";
 
 import Profile from "../../windows/Profile";
 import Lastfm from "../../windows/Lastfm";
@@ -66,19 +67,28 @@ export default function WindowManager() {
   function getWindowForType(type, w) {
     switch (type) {
       case WindowType.PROFILE:
-        return <Profile id={w.id} focused={focused === w.id} key="profile" />;
+        return (
+          <ErrorBoundary key="profile" fallbackMessage="Failed to load profile">
+            <Profile id={w.id} focused={focused === w.id} />
+          </ErrorBoundary>
+        );
       case WindowType.LASTFM:
-        return <Lastfm id={w.id} focused={focused === w.id} key="lastfm" />;
+        return (
+          <ErrorBoundary key="lastfm" fallbackMessage="Failed to load Last.fm data">
+            <Lastfm id={w.id} focused={focused === w.id} />
+          </ErrorBoundary>
+        );
       default:
         return (
-          <Window
-            id={w.id}
-            title={w.title}
-            focused={focused === w.id}
-            key={w.id}
-          >
-            {w.content}
-          </Window>
+          <ErrorBoundary key={w.id} fallbackMessage="Window failed to load">
+            <Window
+              id={w.id}
+              title={w.title}
+              focused={focused === w.id}
+            >
+              {w.content}
+            </Window>
+          </ErrorBoundary>
         );
     }
   }
