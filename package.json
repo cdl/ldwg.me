@@ -12,7 +12,7 @@
     "@vercel/speed-insights": "^1.0.5",
     "98.css": "^0.1.18",
     "classnames": "^2.3.1",
-    "next": "^15.3.4",
+    "next": "15.3.8",
     "prop-types": "^15.8.1",
     "psn-api": "^2.10.1",
     "react": "^19.1.0",
