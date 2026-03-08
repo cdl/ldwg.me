@@ -1,20 +1,9 @@
 import cx from "classnames";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Window from "../../components/Window";
 import styles from "./index.module.css";
-
-async function getTracks() {
-  const res = await fetch("/api/last-fm");
-  if (!res.ok) {
-    throw new Error(`Failed to fetch tracks: ${res.status} ${res.statusText}`);
-  }
-  const data = await res.json();
-  if (typeof data === "string" && data.includes("error")) {
-    throw new Error(`Last.fm API error: ${data}`);
-  }
-  return data;
-}
 
 function renderTimestamp(track) {
   if (track.playedAt === "currently playing") {
@@ -23,9 +12,6 @@ function renderTimestamp(track) {
 
   const timestamp = new Date(Number(track.playedAt) * 1000);
 
-  // If the timestamp is within the last hour, show the time in minutes.
-  // If the timestamp is within the last day, show the time in hours.
-  // Otherwise, show the time in days.
   const now = new Date();
   const diff = now - timestamp;
   const diffMinutes = Math.floor(diff / 60000);
@@ -108,63 +94,24 @@ function renderTopArtist(artist, total) {
   );
 }
 
-export default function Lastfm(props) {
+export default function Lastfm({ lastFmData, ...props }) {
+  const router = useRouter();
+
   let trackCells;
   let topArtistCells;
 
-  const [tracks, setTracks] = useState(null);
-  const [topArtists, setTopArtists] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // Load the recent tracks from the API on init.
-  useEffect(() => {
-    getTracks()
-      .then(({ recentTracks, topArtists }) => {
-        setTracks(recentTracks);
-        setTopArtists(topArtists);
-        setIsLoading(false);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error("Failed to load Last.fm data:", err);
-        setError(err.message);
-        setIsLoading(false);
-      });
-  }, []);
-
-  if (error) {
+  if (lastFmData == null) {
     trackCells = topArtistCells = (
       <div style={{ textAlign: "center", padding: "16px" }}>
         <p style={{ marginBottom: "8px" }}>Failed to load Last.fm data.</p>
-        <p style={{ fontSize: "10px", color: "#666" }}>{error}</p>
-        <button
-          onClick={() => {
-            setError(null);
-            setIsLoading(true);
-            getTracks()
-              .then(({ recentTracks, topArtists }) => {
-                setTracks(recentTracks);
-                setTopArtists(topArtists);
-                setIsLoading(false);
-              })
-              .catch((err) => {
-                setError(err.message);
-                setIsLoading(false);
-              });
-          }}
-        >
-          Retry
-        </button>
+        <button onClick={() => router.refresh()}>Retry</button>
       </div>
     );
-  } else if (isLoading) {
-    trackCells = topArtistCells = (
-      <p style={{ textAlign: "center" }}>fetching info from last.fm...</p>
-    );
   } else {
-    if (tracks instanceof Array) {
-      trackCells = tracks.map(renderTrack);
+    const { recentTracks, topArtists } = lastFmData;
+
+    if (recentTracks instanceof Array) {
+      trackCells = recentTracks.map(renderTrack);
     }
 
     if (topArtists?.artists?.map) {

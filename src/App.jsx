@@ -1,6 +1,4 @@
-import Head from "next/head";
-import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+"use client";
 
 import { WindowType } from "./98/components/Window";
 import { DesktopContext } from "./98/context/desktop";
@@ -21,33 +19,10 @@ const initialState = {
   },
 };
 
-export default function App() {
+export default function App({ lastFmData }) {
   return (
-    <>
-      <SpeedInsights />
-      <Script
-        defer={true}
-        data-domain="colbyludwig.ca"
-        src="https://p.ldwg.ca/js/script.js"
-      />
-      <Script
-        id="plausible-js-queue"
-        dangerouslySetInnerHTML={{
-          __html: `window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`,
-        }}
-      />
-      <Head>
-        <title>Colby Ludwig</title>
-        <meta
-          name="description"
-          content="Colby Ludwig is a full-stack software developer, making and breaking things for the web in Edmonton, AB, Canada."
-        />
-        <link rel="me" href="https://ldwg.ca/@colby" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
-      <DesktopContext.Provider value={initialState}>
-        <WindowManager></WindowManager>
-      </DesktopContext.Provider>
-    </>
+    <DesktopContext.Provider value={initialState}>
+      <WindowManager lastFmData={lastFmData} />
+    </DesktopContext.Provider>
   );
 }

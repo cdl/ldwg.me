@@ -6,7 +6,7 @@ import ErrorBoundary from "../ErrorBoundary";
 import Profile from "../../windows/Profile";
 import Lastfm from "../../windows/Lastfm";
 
-export default function WindowManager() {
+export default function WindowManager({ lastFmData }) {
   const state = useDesktop();
   const [focused, setFocused] = useState(state.focused);
 
@@ -75,7 +75,7 @@ export default function WindowManager() {
       case WindowType.LASTFM:
         return (
           <ErrorBoundary key="lastfm" fallbackMessage="Failed to load Last.fm data">
-            <Lastfm id={w.id} focused={focused === w.id} />
+            <Lastfm id={w.id} focused={focused === w.id} lastFmData={lastFmData} />
           </ErrorBoundary>
         );
       default:
